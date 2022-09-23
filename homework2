@@ -1,0 +1,14 @@
+public class Main {
+    public static void main(String[] args) {
+        // write your code here
+        int x = 10;
+        int y = 20;
+        int z = (++x) + (y--);
+        System.out.println(z);
+    }}
+
+
+단순하게 출력되는 결과를 물어보면 답은 31
+근데 이유는 ++,--가 앞에 위치하면 연산을 수행하기 전에 피연사값을 1만큼  움직이고, 
+        ++,--가 뒤에 위치하면 다른 연산을 수행한후에 연산자의 값을 1만큼 움직인다.
+따라서 위의 코드를 입력하면 y--는 적용이 안되는데 그이유는 아직 연산이 수행되지 않았기 때문
