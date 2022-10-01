@@ -1,0 +1,81 @@
+public class Taxi {
+
+    //속성
+    static int counter = 0; //택시 운행 수량
+    int taxiNum;              //택시 번호
+    int fuelVol;              //주유량
+    int taxiSpeed;            //현재속도
+    String destination;       //목적지
+    int basicDis;             //기본거리
+    int destinationDis;       //목적지까지 거리
+    int basicFare;            //기본 요금
+    int farePerDis;           //거리당 요금
+    int maxP;                //최대승객수
+    int curP;               //현재승객수
+    String state;            //상태 (운행 중, 일반)  1-운행    -1-차고지행
+
+    //생성자
+//    Taxi(int taxiNum,int fuelVol,int taxiSpeed,String destination,int basicDis,int basicFare,int farePerDis,int destinationDis String status){
+    public Taxi(){
+        this.taxiNum = Taxi.counter++;
+        this.fuelVol = 100;
+        this.taxiSpeed = 0;
+        this.state = "운행중";
+        this.basicFare= 3000;
+        this.basicDis= 1;
+        this.maxP = 4;
+        this.farePerDis = 1000;
+    }
+
+    // 차고지행 -> 운행
+    public void drive(){
+        this.state = "운행중";
+    }
+
+    //운행 -> 운행불가
+    public void stop(){
+        this.state = "운행불가";
+    }
+    
+
+
+    ///승객 n명 탑승시 현재 승객수 n만큼 증가
+    ///승객 탑승은 최대 승객수 이하까지 가능
+    public void ride(int personCnt) {
+        //승객이 탈 수 있는지 체크
+        if (curP + personCnt <= maxP && state == "운행가능") {
+            //승객을 태운다
+            curP = curP + personCnt;
+        } else {
+            System.out.println("최대 승객 수 초과");
+        }
+    }
+
+    //기름상태 체크
+    public void fuelStateCheck() {
+
+        // 기름이 떨어진 경우
+        if (this.fuelVol <= 10)  {
+            System.out.println("주유가 필요합니다");
+            stop();
+        }
+    }
+    //주유량 변경
+    //n만큼 주유했을때 현재 주유량이 n만큼 증가한다.
+    public void changeFuel(int fuel) {
+
+        fuelVol = fuelVol + fuel;
+        fuelStateCheck();
+    }
+    //요금 계산 - 총 요금 = 기본요금 + (거리 -1 * 거리당요금)
+    public int getTotalFare(int distanceFare) {
+
+        return (distanceFare - 1)* this.farePerDis + this.basicFare;
+    }
+
+
+}
+
+
+
+
