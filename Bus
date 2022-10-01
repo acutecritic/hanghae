@@ -1,0 +1,91 @@
+public class Bus {
+
+    static int counter = 0; //버스 운행 수량
+    int maxP; // 최대승객수
+    int curP; // 현재승객수
+    int cost; // 요금
+    int number; // 버스 번호
+    int fuelAmount; // 현재 기름량
+    int curSpeed; // 현재 속도
+    int state; // 1 - 운행 , -1 - 운행불가
+
+    //생성자
+    public Bus() {
+        this.number = Bus.counter++;
+        this.state = 1;
+        this.fuelAmount = 100;
+        this.curSpeed = 0;
+        this.maxP = 30;
+        this.cost = 1000;
+    }
+
+    // 차고지행 -> 운행
+    public void drive() {
+        this.state = 1;
+    }
+
+    // 운행 -> 차고지행
+    public void stop() {
+        this.state = -1;
+    }
+
+    ///승객 n명 탑승시 현재 승객수 n만큼 증가
+    ///승객 탑승은 최대 승객수 이하까지 가능하며,
+    ///운행중인 버스만 가능
+    public void ride(int personCnt) {
+    //승객이 탈 수 있는지 체크
+        if (curP + personCnt <= maxP && state == 1) {
+    //승객을 태운다
+            curP = curP + personCnt;
+        } else {
+            System.out.println("최대 승객 수 초과");
+        }
+    }
+
+    // 기름 상태 체크
+    public void fuelStateCheck() {
+
+    // 기름이 떨어진 경우
+        if (this.fuelAmount == 0) stop();
+        else if (this.fuelAmount < 10) {
+            System.out.println("주유가 필요");
+            stop();
+        }
+    }
+
+//주유량 변경
+//n만큼 주유했을때 현재 주유량이 n만큼 증가한다.
+    public void changeFuel(int fuel) {
+
+        fuelAmount = fuelAmount + fuel;
+        fuelStateCheck();
+    }
+
+//요금 계산 - 총 요금 = 탑승 수 * 요금
+    public int getTotalCost(int personCnt) {
+
+        return personCnt * this.cost;
+    }
+
+// 속도 변경
+// 속도를 i만큼 증가하면 현재 속도가 i만큼 증가한다.
+// 속도를 i만큼 감소하면 현재 속도가 i만큼 감소한다.
+    public void changeSpeed(int speed) {
+        curSpeed = curSpeed + speed;
+    }
+
+//속도 증가
+    public void plusSpeed(int speed) {
+        if (speed > 0) {
+            curSpeed = curSpeed + speed;
+        }
+    }
+
+//속도 감소
+    public void minusSpeed(int speed) {
+        if (speed > 0) {
+            curSpeed = curSpeed - speed;
+        }
+    }
+
+}
